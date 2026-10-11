@@ -137,6 +137,24 @@ GitHub repository secrets (*Settings → Secrets and variables → Actions*) and
 
 ## 6. Testing the incremental load
 
+### Run the tests in GitHub (recommended)
+
+GitHub → *Actions → Test pipeline → Run workflow*, or
+`gh workflow run test.yml -R Renato0699/weather-app -f mode=upsert` (or `mode=incremental`).
+It runs `notebooks/Test_pipeline.ipynb` against the real Neon bucket and database, using the real pipeline
+notebooks, and fails if any check fails. The executed notebooks (the test report and every pipeline run it made)
+are attached to the run as an artifact.
+
+| Mode | Tests | Data afterwards |
+|---|---|---|
+| `upsert` (default) | C, B, checks | unchanged – B runs in a transaction that is rolled back |
+| `incremental` | A, C, B, checks | the same – the newest deltadate is removed and fetched again, the DWH is emptied and rebuilt |
+
+If an `incremental` run fails half-way, the next daily run repairs it: Ingest fetches the missing deltadate and
+Load_dwh loads every file that is not in the fact.
+
+The sections below describe the same tests as manual steps (Neon SQL editor + console).
+
 ### What each test proves
 
 | Test | Proves |

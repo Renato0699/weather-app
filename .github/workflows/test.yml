@@ -1,0 +1,59 @@
+name: Test pipeline
+
+# notebooks/Test_pipeline.ipynb against the real Neon bucket and database (docs/PIPELINE.md, section 6).
+#   upsert       B + C – changes nothing (upsert test runs in a transaction that is rolled back)
+#   incremental  A + B + C – removes the newest deltadate from the bucket and empties the DWH, then the real
+#                notebooks load everything again and fetch that day from the API
+# Any failed check fails the run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "upsert = B + C, changes nothing | incremental = A + B + C, rebuilds the DWH"
+        type: choice
+        options: [upsert, incremental]
+        default: upsert
+
+concurrency:
+  group: weather-pipeline           # never at the same time as the daily pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      STORAGE: s3
+      STORAGE_ENDPOINT_URL: ${{ secrets.STORAGE_ENDPOINT_URL }}
+      STORAGE_REGION: ${{ secrets.STORAGE_REGION }}
+      STORAGE_ACCESS_KEY_ID: ${{ secrets.STORAGE_ACCESS_KEY_ID }}
+      STORAGE_SECRET_ACCESS_KEY: ${{ secrets.STORAGE_SECRET_ACCESS_KEY }}
+      STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Test (${{ inputs.mode }})
+        run: |
+          mkdir -p output
+          papermill notebooks/Test_pipeline.ipynb output/Test_pipeline.ipynb --cwd notebooks -p MODE ${{ inputs.mode }}
+
+      - name: Keep executed notebooks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-${{ inputs.mode }}-${{ github.run_id }}
+          path: output/
+          retention-days: 30
