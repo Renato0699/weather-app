@@ -18,6 +18,8 @@ notebooks/Load_dwh.ipynb    raw files -> DWH
 sql/01_create_tables.sql    stg + dwh tables
 sql/02_load_procedures.sql  load procedures (dim_date, dim_weather_type, dim_city, fact_weather_daily)
 docs/DWH_DESIGN.md          star schema, columns, keys, SCD types
+docs/PIPELINE.md            how the pipeline works, operation, testing, troubleshooting
+sql/checks/dwh_checks.sql   read-only checks after a load
 .github/workflows/          daily pipeline
 ```
 
@@ -55,6 +57,9 @@ cp .env.example .env        # fill in the values
 
 Then run `notebooks/Ingest_data.ipynb` and `notebooks/Load_dwh.ipynb`. With `STORAGE=local` the raw files go to
 `raw_data/` in the project instead of the bucket.
+
+More: [docs/PIPELINE.md](docs/PIPELINE.md) (operation, testing, troubleshooting) and
+[docs/DWH_DESIGN.md](docs/DWH_DESIGN.md) (tables and columns).
 
 ## Add a city
 
