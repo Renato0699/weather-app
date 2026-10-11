@@ -1,0 +1,30 @@
+weather_code,description,category,intensity,severity,is_precipitation,is_freezing
+-1,Unknown,Unknown,-,0,false,false
+0,Clear sky,Clear,-,0,false,false
+1,Mainly clear,Cloudy,Light,0,false,false
+2,Partly cloudy,Cloudy,Moderate,0,false,false
+3,Overcast,Cloudy,Heavy,0,false,false
+45,Fog,Fog,-,1,false,false
+48,Depositing rime fog,Fog,-,1,false,false
+51,Light drizzle,Drizzle,Light,1,true,false
+53,Moderate drizzle,Drizzle,Moderate,1,true,false
+55,Dense drizzle,Drizzle,Heavy,1,true,false
+56,Light freezing drizzle,Drizzle,Light,2,true,true
+57,Dense freezing drizzle,Drizzle,Heavy,2,true,true
+61,Slight rain,Rain,Light,1,true,false
+63,Moderate rain,Rain,Moderate,2,true,false
+65,Heavy rain,Rain,Heavy,2,true,false
+66,Light freezing rain,Rain,Light,2,true,true
+67,Heavy freezing rain,Rain,Heavy,3,true,true
+71,Slight snowfall,Snow,Light,1,true,false
+73,Moderate snowfall,Snow,Moderate,2,true,false
+75,Heavy snowfall,Snow,Heavy,3,true,false
+77,Snow grains,Snow,Light,1,true,false
+80,Slight rain showers,Rain,Light,1,true,false
+81,Moderate rain showers,Rain,Moderate,2,true,false
+82,Violent rain showers,Rain,Heavy,3,true,false
+85,Slight snow showers,Snow,Light,1,true,false
+86,Heavy snow showers,Snow,Heavy,2,true,false
+95,Thunderstorm,Storm,Moderate,3,true,false
+96,Thunderstorm with slight hail,Storm,Moderate,3,true,false
+99,Thunderstorm with heavy hail,Storm,Heavy,3,true,false

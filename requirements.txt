@@ -1,0 +1,13 @@
+pandas>=2.2
+numpy>=2.0
+# Open-Meteo client as in https://open-meteo.com/en/docs
+openmeteo-requests>=1.7
+requests-cache>=1.2
+retry-requests>=2.0
+# raw files on Neon Object Storage (S3 API), DWH on Neon Postgres
+boto3>=1.34
+psycopg[binary]>=3.2
+python-dotenv>=1.0
+# notebooks in GitHub Actions
+papermill>=2.6
+ipykernel>=6.29

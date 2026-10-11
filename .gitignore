@@ -1,0 +1,13 @@
+# data – lives in the Neon bucket, never in git
+raw_data/
+output/
+
+# secrets
+.env
+
+# caches
+.cache/
+*.sqlite
+.ipynb_checkpoints/
+__pycache__/
+.venv/
