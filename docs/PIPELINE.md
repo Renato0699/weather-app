@@ -238,4 +238,3 @@ If Power BI reports *"Endpoint ID is not specified"*, enter the password as `end
 | `AccessDenied` / `SignatureDoesNotMatch` from storage | wrong key/secret, a credential without `storage:write`, or one created on another branch |
 | `Cities in stg.weather_daily but not in dim_city` | weather file for a city without a row in `cities/…/cities.csv` – run Ingest (it geocodes first) |
 | `connection timeout` to Neon | the compute was suspended – run again; check the host in `DATABASE_URL` |
-| Workflow does not run on schedule | *Actions* tab → workflow disabled? Enable it. |
