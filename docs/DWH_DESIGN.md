@@ -84,8 +84,8 @@ Primary key: (`date_key`, `city_key`). A reloaded delta replaces existing rows (
 | `day_name` | text | Tuesday |
 | `is_weekend` | bool | false |
 
-Season is **not** here: it depends on the hemisphere (October is autumn in Chicago, spring in Sydney) and is
-derived from `dim_city.hemisphere` + `month` in the view below.
+Season is **not** here: it depends on the hemisphere (October is autumn in Chicago, spring in Sydney). If needed,
+derive it in the report from `dim_date.month` and `dim_city.hemisphere`.
 
 ---
 
@@ -160,23 +160,3 @@ Rows:
 | 95 | Thunderstorm | Storm | Moderate | 3 |
 | 96 | Thunderstorm with slight hail | Storm | Moderate | 3 |
 | 99 | Thunderstorm with heavy hail | Storm | Heavy | 3 |
-
----
-
-## Weather changes – view `v_weather_changes`
-
-Day-over-day changes are computed in a view on top of the fact, so they stay correct with incremental loads
-(the previous day is always read from the DWH, not only from the new delta).
-
-| Column | Rule |
-|---|---|
-| `date_key`, `city_key`, `weather_type_key` | from the fact |
-| `season` | Winter / Spring / Summer / Autumn from `month` and `hemisphere` |
-| `temperature_mean_change` | `temperature_2m_mean - LAG(temperature_2m_mean)` per city ordered by date |
-| `temperature_max_change` | same for `temperature_2m_max` |
-| `temperature_min_change` | same for `temperature_2m_min` |
-| `precipitation_change` | same for `precipitation_sum` |
-| `wind_gusts_change` | same for `wind_gusts_10m_max` |
-| `previous_weather_type_key` | `LAG(weather_type_key)` |
-| `weather_type_changed` | `weather_type_key <> previous_weather_type_key` |
-| `category_changed` | category of today ≠ category of yesterday (e.g. Clear → Rain) |
