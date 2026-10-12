@@ -2,8 +2,9 @@
 raw_data/
 output/
 
-# secrets
+# secrets and documents that are not part of the project
 .env
+*.docx
 
 # caches
 .cache/

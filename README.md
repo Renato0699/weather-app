@@ -15,13 +15,12 @@ config/cities.csv           cities to load (city, latitude, longitude)
 config/weather_types.csv    WMO weather codes -> dim_weather_type
 notebooks/Ingest_data.ipynb API -> raw files
 notebooks/Load_dwh.ipynb    raw files -> DWH
-notebooks/Test_pipeline.ipynb  tests (workflow "Test pipeline", against Neon)
 sql/01_create_tables.sql    stg + dwh tables
 sql/02_load_procedures.sql  load procedures (dim_date, dim_weather_type, dim_city, fact_weather_daily)
 docs/DWH_DESIGN.md          star schema, columns, keys, SCD types
 docs/PIPELINE.md            how the pipeline works, operation, testing, troubleshooting
 sql/checks/dwh_checks.sql   read-only checks after a load
-.github/workflows/          pipeline.yml (daily), test.yml (manual tests)
+.github/workflows/          daily pipeline
 ```
 
 Raw files in the bucket (never in git):
